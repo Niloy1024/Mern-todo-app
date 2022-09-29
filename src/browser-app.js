@@ -45,7 +45,7 @@ const showTasks = async (s = `/api/v1/tasks`) => {
     const allTasks = tasks
       .map((task) => {
         const { price,category, _id: taskID, name } = task
-        return `<div class="max-w-sm rounded overflow-hidden shadow-lg">
+        return `<div class="max-w-sm col-span-${1} rounded overflow-hidden shadow-lg">
         <div class="px-6 py-4">
           <div class="font-bold text-xl mb-2">${name}</div>
           <p class="text-gray-700 text-base">
