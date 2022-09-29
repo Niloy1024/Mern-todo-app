@@ -11,7 +11,7 @@ const TaskSchema = new mongoose.Schema({
   category:{
     type:String,
     required:true,
-    enum:['x','y','z'],
+    enum:['cosmetics','dress','education'],
   },
   price:{
     type:Number,

@@ -3,18 +3,39 @@ const loadingDOM = document.querySelector('.loading-text')
 const category_filter = document.querySelector('.category_filter')
 let url  = '/api/v1/tasks'
 
-const setq = (x)=>{
-  url = `/api/v1/tasks?category=${x}`
-  showTasks();
+var query = new Map();
+
+const filterdata = ()=>{
+  let newurl = url+'?';
+  
+  const radios = document.querySelectorAll('input[name="category"]');
+  //console.log(radios)
+  for(const x of radios){
+      if(x.checked){
+        newurl+=`category=${x.value}`
+      }
+  }
+
+  const lo = document.getElementsByClassName('lo')[0];
+  const hi = document.getElementsByClassName('hi')[0];
+  console.log(lo.value)
+  if(lo.value!=null){
+
+    newurl+=`&nfl=${lo.value}`
+  }
+  if(hi.value!=null){
+    newurl+=`&nfh=${hi.value}`
+  }
+  showTasks(newurl)
 }
 
-const showTasks = async () => {
+const showTasks = async (s = `/api/v1/tasks`) => {
   
   loadingDOM.style.visibility = 'visible'
   try {
     const {
       data: { tasks },
-    } = await axios.get(url)
+    } = await axios.get(s)
     
     if (tasks.length < 1) {
       tasksDOM.innerHTML = '<h5 class="empty-list">No tasks in your list</h5>'
@@ -28,7 +49,7 @@ const showTasks = async () => {
         <div class="px-6 py-4">
           <div class="font-bold text-xl mb-2">${name}</div>
           <p class="text-gray-700 text-base">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus quia, nulla! Maiores et perferendis eaque, exercitationem praesentium nihil.
+          this is product description
           </p>
         </div>
         <div class="px-6 pt-4 pb-2">

@@ -1,8 +1,37 @@
 const Task = require('../models/Task')
 const asyncWrapper = require('../middleware/async')
 const { createCustomError } = require('../errors/custom-error')
+
+
 const getAllTasks = asyncWrapper(async (req, res) => {
-  const tasks = await Task.find(req.query)
+  const qo = {}
+  const {category,nfl,nfh} = req.query;
+  console.log(nfl)
+  if(category!=undefined){
+    qo.category = category; 
+  }
+  if(nfl!=undefined){
+    if(qo.price!=undefined){
+    qo.price.$gt =  Number(nfl);
+    }
+    else{
+      qo.price = {}
+      qo.price.$gt=Number(nfl)
+    }
+  }
+  if(nfh!=undefined){
+    if(qo.price!=undefined){
+    qo.price.$lt =  Number(nfh);
+    }
+    else{
+      qo.price = {}
+      qo.price.$lt=Number(nfh)
+    }
+  }
+
+  const tasks = await Task.find(qo)
+  console.log(qo)
+  
   res.status(200).json({ tasks })
 })
 
